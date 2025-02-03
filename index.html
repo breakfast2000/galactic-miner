@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Miner</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <h1>Galactic Miner</h1>
+    <p>Resources: <span id="resources">0</span></p>
+    <button id="mineButton">Mine Asteroid</button>
+    <button id="buyRobot">Buy Mining Robot (Cost: 10)</button>
+    <button id="upgradeDrill">Upgrade Drill (Cost: 20)</button>
+    <div id="robotCount">Robots: 0</div>
+    <div id="drillLevel">Drill Level: 1</div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        let resources = 0;
+        let robots = 0;
+        let drillLevel = 1;
+        let autoMineInterval;
+
+        document.getElementById("mineButton").addEventListener("click", function() {
+            resources += drillLevel;
+            updateDisplay();
+        });
+
+        document.getElementById("buyRobot").addEventListener("click", function() {
+            if (resources >= 10) {
+                resources -= 10;
+                robots++;
+                updateDisplay();
+                if (robots === 1) startAutoMining();
+            }
+        });
+
+        document.getElementById("upgradeDrill").addEventListener("click", function() {
+            if (resources >= 20) {
+                resources -= 20;
+                drillLevel++;
+                updateDisplay();
+            }
+        });
+
+        function updateDisplay() {
+            document.getElementById("resources").textContent = resources;
+            document.getElementById("robotCount").textContent = `Robots: ${robots}`;
+            document.getElementById("drillLevel").textContent = `Drill Level: ${drillLevel}`;
+        }
+
+        function startAutoMining() {
+            autoMineInterval = setInterval(() => {
+                resources += robots;
+                updateDisplay();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
